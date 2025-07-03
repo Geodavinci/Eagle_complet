@@ -1,0 +1,515 @@
+/* Style général */
+
+:root {
+    --primary-color-transparent-75: rgba(2, 79, 58, 0.75); /* 75% opaque */
+    --secondary-color: #ffe600;
+    --accent-color: #390810;
+    --text-color: #333333;
+    --background-color: white;
+    --font-family: 'Arial', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Header et menu */
+header {
+    background-color: var(--primary-color-transparent-75);
+    display: flex;
+    align-items: center;
+    padding: 1rem ;
+    position: fixed;
+    width: 100%;
+}
+
+
+.logo img {
+    max-width: 150px;
+    height: auto;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 1rem;
+}
+
+/* Assure que le bouton hamburger est visible sur mobile et le menu toujours visible sur PC */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    position: absolute; /* Positionnement absolu pour le placer à droite */
+    right: 50px; /* Décalage depuis le bord droit, ajustez si nécessaire */
+    top: 50%; /* Centré verticalement par rapport à l'en-tête */
+    transform: translateY(-50%); /* Ajuste pour un meilleur centrage */
+    z-index: 2000; /* Assure qu'il est au-dessus du menu */
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* Style du menu déroulant */
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: transparent;
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    width: auto;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+#menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#menu ul li {
+    margin-bottom: 0.5rem;
+}
+
+#menu ul li a {
+    display: block;
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#menu ul li a:hover {
+    background-color: transparent;
+    color: white !important;
+}
+
+/* Affichage du menu sur desktop */
+@media (min-width: 769px) {
+    #menu {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        position: fixed;
+        flex-direction: row;
+        background: none;
+        padding: 0;
+    }
+    #menu ul {
+        flex-direction: row;
+        align-items: center;
+    }
+    #menu ul li {
+        margin-left: 1rem;
+        margin-bottom: 0;
+    }
+}
+
+/* Affichage du bouton hamburger et menu caché sur mobile */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    #menu {
+        display: none;
+        flex-direction: column;
+        align-items: flex-end;
+        position: absolute;
+        top: 60px;
+        right: 03;
+        background-color: transparent;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+    #menu.visible {
+        display: flex;
+    }
+}
+
+
+
+/* Section Hero */
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/FOND VRAI.jpg') center/cover no-repeat;
+    color: white;
+    min-height: 70vh; /* Occupe toute la hauteur de la fenêtre */
+    padding: 0 1rem;  /* Espace interne pour éviter que le contenu touche les bords sur mobile */
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
+
+/* Ajustements responsives pour les petits écrans */
+@media screen and (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+}
+
+
+/* Boutons de domaines */
+.domain-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    text-align: center;
+    margin: 0.5rem auto;
+    padding: 0 1rem; /* Ajoute un padding pour ne pas coller au bord sur mobile */
+}
+
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* Pour les très petits écrans, force l'affichage en une seule colonne */
+@media screen and (max-width: 480px) {
+    .domain-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Empêcher le glissement horizontal */
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Sections */
+section {
+    padding: clamp(4rem, 8vw, 10rem) clamp(1rem, 5vw, 4rem);
+    text-align: center;
+    max-width: 100%;
+    margin: auto;
+    background-color: white;
+    overflow: hidden;
+}
+
+/* Section Publicité */
+.publicite-section {
+    text-align: center;
+    padding: 5%;
+    background-color: #f8f9fa;
+    margin-top: 5vh;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: min(90%, 1200px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Titre de la publicité */
+.publicite-section .Titre {
+    color: var(--primary-color-transparent-75);
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: bold;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+/* Conteneur Vidéo */
+.video-container {
+    width: 100%;
+    max-width: 800px; /* largeur maximale contrôlée */
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Vidéo responsive */
+video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    max-width: 100%;
+    object-fit: cover; /* pour éviter les débordements visuels si besoin */
+}
+
+/* Section parent (si utilisée) */
+section,
+.publicite-section {
+    max-width: 100%;
+    overflow: hidden; /* évite les débordements horizontaux */
+    box-sizing: border-box;
+    padding: 5rem 2rem;
+}
+
+/* Responsivité */
+@media (max-width: 1024px) {
+    section,
+    .publicite-section {
+        padding: 4rem 2rem;
+    }
+
+    .video-container {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .publicite-section .Titre {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    section,
+    .publicite-section {
+        padding: 3rem 1rem;
+    }
+
+    .video-container {
+        max-width: 95%;
+    }
+}
+
+/* Styles généraux : version PC - grand bouton */
+.btn-fixe-pub {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 85px;  /* environ 5 cm² en surface */
+    height: 60px;
+    background-color: #ff6600;
+    color: #fff;
+    border: none;
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+    text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: bold;
+    z-index: 9999;
+    box-shadow: 0 0 15px 5px rgba(255, 102, 0, 0.7);
+    animation: flash 1.2s infinite alternate, neonGlow 2s infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 1rem 1.2rem 2.5rem;
+    gap: 5px;
+}
+
+/* Bandeau texte défilant dans le bouton (PC) */
+.bande-texte-mini {
+    display: inline-block;
+    white-space: nowrap;
+    font-size: 0.65rem;
+    color: #fff;
+    opacity: 0.8;
+    animation: defile-mini 6s linear infinite;
+}
+
+/* Animation défilement */
+@keyframes defile-mini {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Animations flash + neon déjà données */
+
+@media (max-width: 768px) {
+    /* Version téléphone : bouton compact 38x38 px */
+    .btn-fixe-pub {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        font-size: 1rem;
+        padding: 0;
+        box-shadow: 0 0 10px 3px rgba(255, 102, 0, 0.7);
+        flex-direction: row;
+        gap: 0;
+        padding-bottom: 0;
+    }
+
+    /* Bandeau miniature défilant sous le bouton */
+    .bande-texte-mini {
+        position: absolute;
+        bottom: -14px;
+        left: 0;
+        width: 100%;
+        font-size: 0.5rem;
+        color: white;
+        white-space: nowrap;
+        animation: defile-mini 5s linear infinite;
+        opacity: 0.85;
+    }
+}
+
+
+
+
+/* Footer */
+footer {
+    background-color: var(--primary-color-transparent-75);
+    text-align: center;
+    position: fixed;
+    padding: 0.5rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    z-index: 9999;
+    height: 7rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenu du footer */
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 1.2rem;
+    text-align: center;
+}
+
+/* Section des icônes sociales */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.social-icons a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 1rem;
+    color: white; /* Icônes blanches */
+}
+
+/* Icône téléphone */
+.phone-icon {
+    font-size: 1.6rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: white;
+}
+
+/* Effet au survol */
+footer .social-icons a:hover,
+footer .phone-icon:hover {
+    background-color: #390810;
+    color: white;
+}
+
+/* Copyright */
+footer p {
+    font-size: 0.8rem;
+    margin: 0;
+    color: white;
+    margin-top: 0.5rem;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+    footer {
+        padding: 0.1rem;
+        height: auto;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    footer p {
+        font-size: 0.6rem;
+    }
+
+    .social-icons {
+        gap: 3px;
+    }
+
+    .social-icons a {
+        width: 15px;
+        height: 15px;
+        font-size: 1rem;
+    }
+
+    .phone-icon {
+        font-size: 1.rem;
+    }
+    footer {
+        
+        height: 5rem;
+        
+    }
+}

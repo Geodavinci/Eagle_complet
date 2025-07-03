@@ -1,0 +1,124 @@
+/* --- Conteneur principal --- */
+.domains-description-section {
+    max-width: 1400px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- Titre principal en dehors de la grille --- */
+.Titre {
+    font-family: var(--font-title);
+    font-size: 2.5rem;
+    color: #006a4e;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+/* --- Conteneur des cartes (deux colonnes) --- */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+}
+
+/* --- Cartes des produits --- */
+.card {
+    background: var(--primary-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* --- Effet au survol des cartes --- */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Images des produits --- */
+.card img {
+    width: 100%;
+    height: 200px; /* Limiter la hauteur des images */
+    object-fit: cover; /* Garder la proportion de l'image sans déformation */
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* --- Titres des produits --- */
+.card h3 {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* --- Description des produits --- */
+.card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #f1f1f1;
+    text-align: left;
+}
+
+/* --- Boutons "En savoir plus" --- */
+.card a {
+    display: inline-block;
+    margin-top: px;
+    padding: 3px 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background: #006a4e;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* --- Effet au survol du bouton --- */
+.card a:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* --- Responsive Design (une seule colonne sur mobile) --- */
+@media screen and (max-width: 768px) {
+    .Titre {
+        font-size: 2rem;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Limiter la taille des images sur mobile */
+    .card img {
+        height: 150px; /* Image plus petite sur mobile */
+    }
+
+    /* Ajuster le texte pour s'assurer que tout le contenu reste visible */
+    .card p {
+        font-size: 0.9rem;
+    }
+
+    .card a {
+        font-size: 0.9rem;
+    }
+}
+
+

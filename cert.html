@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EAGLE CONSULTING - TERROIR ET TRADITION</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<style>
+/* Style général */
+:root {
+    --primary-color-transparent-75: rgba(2, 79, 58, 0.75); /* 75% opaque */
+    --secondary-color: #ffe600;
+    --accent-color: #c8102e;
+    --text-color: #333333;
+    --background-color: white;
+    --font-family: 'Arial', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* Header */
+header {
+    background-color: var(--primary-color-transparent-75);
+    display: flex;
+    align-items: center;
+    padding: 1rem ;
+    position: fixed;
+    width: 100%;
+}
+
+.logo img {
+    max-width: 150px;
+    height: auto;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 1rem;
+}
+
+/* Section des Certifications */
+.certifications {
+    text-align: center;
+    margin: 5vh 5vw;
+    margin-top: 100px;
+}
+
+.certifications h1 {
+    font-size: 4vw;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Catalogue d'images */
+.slider-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.slide {
+    width: 100%;
+    max-width: 350px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Format des images */
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+}
+
+/* Effet zoom au survol */
+.slide:hover img {
+    transform: scale(1.05);
+}
+
+/* Style de la fenêtre modale */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: 20px auto;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Bouton de fermeture */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #c8102e;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+    background-color: #9e0f1e;
+}
+</style>
+
+<body>
+
+<!-- Header fixe -->
+<header>
+    <div class="logo">
+        <img src="img/EAGLE LOGO .jpg" alt="Logo de l'entreprise">
+    </div>
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <nav id="menu">
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="cert.html" class="active">Nos Certificats</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="certifications">
+        <h2>Nos Certificats</h2>
+        <p>La preuve de notre intégrité professionnelle.</p>
+
+        <!-- Conteneur du slider avec boutons de défilement -->
+        <div class="slider-wrapper" id="slider2">
+            <button class="prev-btn" onclick="moveSlide(-1, 'slider2')">&#10094;</button>
+            <div class="slider-container" id="sliderContainer2">
+                <div class="slide">
+                    <img src="img/certe1.jpeg" alt="Certification 2" onclick="openModal(this)">
+                </div>
+                <div class="slide">
+                    <img src="img/certe2.jpg" alt="Certification 3" onclick="openModal(this)">
+                </div>
+                <div class="slide">
+                    <img src="img/certe3.jpg" alt="Certification 3" onclick="openModal(this)">
+                </div>
+            </div>
+            <button class="next-btn" onclick="moveSlide(1, 'slider2')">&#10095;</button>
+        </div>
+    </section>
+</main>
+
+<!-- Fenêtre modale pour afficher l'image en entier -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <button class="close-btn" onclick="closeModal()">X</button>
+        <img id="modalImage" src="" alt="Certification agrandie">
+    </div>
+</div>
+
+<br><br> <br> <br> 
+
+<footer>
+    <p>&copy; 2025 EAGLE CONSULTING - TERROIR ET TRADITION - Tous droits réservés.</p>
+</footer>
+
+<script src="index.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Fonction pour gérer un slider spécifique
+    function initSlider(sliderId) {
+        let currentIndex = 0; // Index de l'image actuellement affichée
+        let interval; // Pour stocker l'intervalle de défilement automatique
+        let isAutoSliding = true; // Flag pour vérifier si le défilement automatique est actif
+
+        const sliderWrapper = document.getElementById(sliderId);
+        const sliderContainer = sliderWrapper.querySelector('.slider-container');
+        const slides = sliderWrapper.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = sliderWrapper.querySelector('.prev-btn');
+        const nextBtn = sliderWrapper.querySelector('.next-btn');
+
+        // Fonction pour ajuster la largeur des images selon la taille de l'écran
+        function adjustSliderLayout() {
+            if (window.innerWidth <= 480) {
+                slides.forEach(slide => {
+                    slide.style.width = '100%';
+                });
+            } else {
+                slides.forEach(slide => {
+                    slide.style.width = '50%';
+                    slide.style.margin = '0';
+                });
+            }
+        }
+
+        // Fonction pour démarrer le défilement automatique toutes les 5 secondes
+        function startAutoSlide() {
+            interval = setInterval(() => {
+                moveSlide(1); // Défilement automatique vers la droite
+            }, 5000);
+        }
+
+        // Fonction pour faire défiler les images
+        function moveSlide(direction) {
+            clearInterval(interval);
+            currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+
+            // Déplacement du slider avec transition fluide
+            if (window.innerWidth > 768) {
+                sliderContainer.style.transform = `translateX(-${(currentIndex * 50)}%)`;
+            } else {
+                sliderContainer.style.transform = `translateX(-${(currentIndex * 100)}%)`;
+            }
+
+            if (isAutoSliding) {
+                startAutoSlide();
+            }
+        }
+
+        // Fonction pour ouvrir l'image en grand dans la modale
+        function openModal(img) {
+            const modal = document.getElementById('modal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = img.src;
+            modal.style.display = 'flex';
+
+            clearInterval(interval); // Arrêter le défilement automatique pendant que la modale est ouverte
+        }
+
+        // Fonction pour fermer la modale et reprendre le défilement
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+
+            if (isAutoSliding) {
+                startAutoSlide();
+            }
+        }
+
+        // Initialisation du slider
+        function startSlider() {
+            adjustSliderLayout();
+            startAutoSlide(); // Démarrer le défilement automatique
+        }
+
+        // Fonction pour rendre le slider cyclique (boucle continue)
+        function enableCyclicSlider() {
+            sliderContainer.addEventListener("transitionend", () => {
+                if (currentIndex === totalSlides) {
+                    currentIndex = 0;
+                    sliderContainer.style.transition = "none";
+                    sliderContainer.style.transform = `translateX(0)`;
+                    setTimeout(() => {
+                        sliderContainer.style.transition = "transform 0.5s ease-in-out";
+                    }, 50);
+                } else if (currentIndex === -1) {
+                    currentIndex = totalSlides - 1;
+                    sliderContainer.style.transition = "none";
+                    sliderContainer.style.transform = `translateX(-${(totalSlides - 1) * 50}%)`;
+                    setTimeout(() => {
+                        sliderContainer.style.transition = "transform 0.5s ease-in-out";
+                    }, 50);
+                }
+            });
+        }
+
+        // Pré-charger les images pour de meilleures performances
+        function preloadImages() {
+            slides.forEach(slide => {
+                const img = slide.querySelector('img');
+                const newImg = new Image();
+                newImg.src = img.src;
+            });
+        }
+
+        // Ajouter les écouteurs pour les boutons précédent/suivant
+        prevBtn.addEventListener('click', () => moveSlide(-1));
+        nextBtn.addEventListener('click', () => moveSlide(1));
+
+        // Lancer le slider dès que la page est prête
+        startSlider();
+        enableCyclicSlider();
+        preloadImages();
+        window.addEventListener('resize', adjustSliderLayout);
+    }
+
+    // Initialisation de tous les sliders
+    initSlider('slider1');
+    initSlider('slider2');
+    initSlider('slider3');
+});
+
+// Fonction pour ouvrir l'image dans le modal
+function openModal(img) {
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    modalImage.src = img.src; // Mettre l'image dans le modal
+    modal.style.display = 'flex'; // Afficher le modal
+
+    // Arrêter le défilement automatique pendant que la modale est ouverte
+    clearInterval(interval);
+}
+
+// Fonction pour fermer le modal
+function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'none'; // Masquer le modal
+
+    // Reprendre le défilement automatique après la fermeture du modal
+    if (isAutoSliding) {
+        startAutoSlide();
+    }
+}
+
+// Exemple d'événement d'ouverture du modal sur les images du slider
+document.querySelectorAll('.slider-container .slide img').forEach(img => {
+    img.addEventListener('click', () => openModal(img));
+});
+
+// Fonction pour initialiser le slider
+function startSlider() {
+    adjustSliderLayout();
+    startAutoSlide();  // Démarrer le défilement automatique
+
+    // Lier l'ouverture du modal pour chaque image
+    document.querySelectorAll('.slider-container .slide img').forEach(img => {
+        img.addEventListener('click', () => openModal(img));
+    });
+}
+
+</script>
+
+
+
+</body>
+</html>
