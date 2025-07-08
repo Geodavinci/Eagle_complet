@@ -10,7 +10,103 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="css/produits.css">
-    
+<style>
+    /* Style du bouton - Version contrastée */
+    .btn-certifications {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 14px 32px;
+        background: white;
+        color: var(--primary-color-transparent-75);
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 1;
+    }
+
+    /* Animation au survol */
+    .btn-certifications:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        color: #02503a;
+    }
+
+    /* Effet de fond animé */
+    .btn-certifications::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        opacity: 1;
+        transition: opacity 0.4s ease;
+    }
+
+    .btn-certifications:hover::before {
+        opacity: 0.8;
+    }
+
+    /* Animation de l'icône */
+    .btn-certifications i {
+        font-size: 1.3rem;
+        transition: all 0.4s ease;
+        color: var(--secondary-color);
+    }
+
+    .btn-certifications:hover i {
+        transform: rotate(10deg) scale(1.1);
+        color: var(--orange-theme);
+    }
+
+    /* Effet de pression au clic */
+    .btn-certifications:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Lueur discrète */
+    .btn-certifications::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 52px;
+        z-index: -2;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 0.9; }
+        100% { opacity: 0.6; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .btn-certifications {
+            padding: 12px 24px;
+            font-size: 1rem;
+        }
+        
+        .btn-certifications i {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+
 </head>
 <body>
     <!-- Header fixe -->
@@ -30,7 +126,7 @@
                 <li><a href="#domaines-description">Domaines</a></li>
                 <!-- Dans votre barre de navigation existante -->
 <li class="nav-item">
-    <a class="btn btn-warning" href="html/galerie.html">
+    <a class="btn btn-warning" href="galerie.html">
         <i class="bi bi-collection-play"></i> Nos galeries
     </a>
 </li>
@@ -78,9 +174,11 @@
                 <br>De plus, nos produits font l’objet de tests et <strong>contrôles réguliers par l’INH et l’ITRA, les laboratoires nationaux de référence au Togo.</strong>
                     
                 <br><strong>Enfin, chaque produit que nous mettons sur le marché bénéficie des autorisations officielles, attestant de sa conformité aux normes en vigueur.</strong></p>
-                <a href="cert.html">
-                    <button class="btn-certifications">Nos certificats de conformité</button>
-                </a>
+   <a href="cert.html">
+    <button class="btn-certifications">
+        <i class="bi bi-award-fill"></i> Nos certificats de conformité
+    </button>
+</a>
             </div>
 
             <div class="certifications">
