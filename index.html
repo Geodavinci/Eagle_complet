@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="css/produits.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
 <style>
     /* Style du bouton - Version contrastée */
     .btn-certifications {
@@ -135,6 +136,57 @@
 .btn-download:hover i {
     transform: translateY(2px);
 }
+    /* Styles spécifiques au formulaire */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .submit-btn {
+        position: relative;
+        padding: 12px 24px;
+        background-color: var(--primary-color-transparent-75);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .submit-btn:hover {
+        background-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+    
+    .loading-spinner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .status-message {
+        margin-top: 1.5rem;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    
+    .success {
+        display: block !important;
+        background-color: rgba(40, 167, 69, 0.2);
+        color: #28a745;
+    }
+    
+    .error {
+        display: block !important;
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #dc3545;
+    }
+    
+    .fa-spinner {
+        margin-right: 8px;
+    }
+
 </style>
 
 </head>
@@ -298,22 +350,40 @@
 
         
 <section id="contact" class="contact-section">
-        <div class="contact-form">
-            <h2><i class="fas fa-envelope"></i> Nous Contacter</h2>
-            <form id="contact-form">
-                <label for="name"><i class="fas fa-user"></i> Nom :</label>
-                <input type="text" id="name" name="name" required placeholder="Votre nom">
-        <br>
-                <label for="email"><i class="fas fa-at"></i> Email :</label>
-                <input type="email" id="email" name="email" required placeholder="Votre email">
-                <br>
-                <label for="message"><i class="fas fa-comment-dots"></i> Message :</label>
-                <textarea id="message" name="message" required placeholder="Votre message"></textarea>
-                <br>
-                <button type="submit"><i class="fas fa-paper-plane"></i> Envoyer</button>
-            </form>
-            <p id="form-status"></p>
+   <div class="contact-form">
+    <h2><i class="fas fa-envelope"></i> Nous Contacter</h2>
+    
+    <form id="contact-form" action="https://formspree.io/f/xvgrjqwr" method="POST">
+        <!-- Champ caché pour la redirection -->
+        <input type="hidden" name="_next" value="https://votresite.com/merci.html">
+        <!-- Protection anti-spam -->
+        <input type="text" name="_gotcha" style="display:none">
+        
+        <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i> Nom :</label>
+            <input type="text" id="name" name="name" required placeholder="Votre nom complet">
         </div>
+        
+        <div class="form-group">
+            <label for="email"><i class="fas fa-at"></i> Email :</label>
+            <input type="email" id="email" name="email" required placeholder="exemple@email.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="message"><i class="fas fa-comment-dots"></i> Message :</label>
+            <textarea id="message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">
+            <span class="btn-text"><i class="fas fa-paper-plane"></i> Envoyer</span>
+            <span class="loading-spinner" style="display:none">
+                <i class="fas fa-spinner fa-spin"></i> Envoi en cours...
+            </span>
+        </button>
+        
+        <div id="form-status" class="status-message"></div>
+    </form>
+</div>
 
         <div class="contact-info">
             <h2><i class="fas fa-map"></i> Nos Coordonnées</h2>
@@ -373,5 +443,57 @@
     <script src="index.js"></script>
     <script src="js/contacts.js"></script>
     <script src="js/apropos.js"></script>
+   
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const status = document.getElementById('form-status');
+    const submitBtn = form.querySelector('.submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Afficher le spinner
+        btnText.style.display = 'none';
+        spinner.style.display = 'inline-block';
+        submitBtn.disabled = true;
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                status.textContent = 'Message envoyé avec succès !';
+                status.className = 'status-message success';
+                form.reset();
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            status.textContent = "Une erreur s'est produite. Veuillez réessayer ou nous contacter directement.";
+            status.className = 'status-message error';
+        } finally {
+            // Réinitialiser le bouton
+            btnText.style.display = 'inline-block';
+            spinner.style.display = 'none';
+            submitBtn.disabled = false;
+            
+            // Cacher le message après 5s
+            setTimeout(() => {
+                status.style.display = 'none';
+            }, 5000);
+        }
+    });
+});
+</script>
+    
 </body>
 </html>

@@ -25,19 +25,3 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-document.getElementById("contact-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Empêcher l'envoi classique du formulaire
-
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const message = document.getElementById("message").value;
-
-    // Construction de l'email avec mailto:
-    const subject = encodeURIComponent("Contact - Demande d'information");
-    const body = encodeURIComponent(
-        `Bonjour,\n\nNom : ${name}\nEmail : ${email}\n\nMessage :\n${message}\n\nCordialement.`
-    );
-
-    window.location.href = `https://mail.google.com/mail/?view=cm&fs=1&to=eagleconsultingtg@gmail.com&su=${subject}&body=${body}`;
-});
